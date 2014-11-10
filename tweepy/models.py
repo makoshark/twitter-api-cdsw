@@ -69,6 +69,11 @@ class Status(Model):
     def parse(cls, api, json):
         status = cls(api)
         for k, v in json.items():
+            
+            # Hack by guyrt to fix unicode issues, which we do *not* want to teach.
+            if isinstance(v, basestring):
+                v = v.encode('ascii', errors='ignore')
+
             if k == 'user':
                 user_model = getattr(api.parser.model_factory, 'user') if api else User
                 user = user_model.parse(api, v)
