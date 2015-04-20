@@ -77,9 +77,10 @@ class Status(Model):
         status = cls(api)
 
         # I'm not proud. Blame billg.
-        json['text'] = str(json['text'].encode('ascii', 'ignore'))[2:-1]
+        import sys
+        json['text'] = str(json['text'].encode(sys.stdout.encoding, 'replace'))[2:-1]
         if 'user' in json:
-            json['user']['screen_name'] = str(json['user']['screen_name'].encode('ascii', 'ignore'))[2:-1]
+            json['user']['screen_name'] = str(json['user']['screen_name'].encode(sys.stdout.encoding, 'replace'))[2:-1]
 
         setattr(status, '_json', json)
         for k, v in json.items():
