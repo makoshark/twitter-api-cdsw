@@ -8,10 +8,10 @@ api = tweepy.API(auth)
 
 class StreamListener(tweepy.StreamListener):
     def on_status(self, tweet):
-        print tweet.user.screen_name + "\t" + tweet.text
+        print(tweet.author.screen_name + "\t" + tweet.text)
 
     def on_error(self, status_code):
-        print 'Error: ' + repr(status_code)
+        print('Error: ' + repr(status_code))
         return False
 
 l = StreamListener()

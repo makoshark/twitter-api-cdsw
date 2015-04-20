@@ -9,4 +9,4 @@ api = tweepy.API(auth)
 public_tweets = api.search("data science", count=20)
 
 for tweet in public_tweets:
-    print tweet.user.screen_name + "\t" + str(tweet.created_at) + "\t" + tweet.text
+    print(tweet.user.screen_name + "\t" + str(tweet.created_at) + "\t" + tweet.text)
