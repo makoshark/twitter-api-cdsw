@@ -9,4 +9,4 @@ api = tweepy.API(auth)
 public_tweets = api.home_timeline(count=100)
 
 for tweet in public_tweets:
-    print tweet.text
+    print(tweet.text)

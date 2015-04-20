@@ -5,7 +5,7 @@ from twitter_authentication import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
-api = tweepy.API(auth, parser=tweepy.parsers.RawParser)
+api = tweepy.API(auth, parser=tweepy.parsers.RawParser())
 
 @classmethod                    
 def parse(cls, api, raw):
@@ -18,10 +18,10 @@ tweepy.models.Status.parse = parse
 
 class StreamListener(tweepy.StreamListener):
     def on_status(self, tweet):
-        print tweet.json
+        print(tweet.json)
 
     def on_error(self, status_code):
-        print 'Error: ' + repr(status_code)
+        print('Error: ' + repr(status_code))
         return False
 
 l = StreamListener()

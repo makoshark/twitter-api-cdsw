@@ -13,5 +13,5 @@ output_file = codecs.open("MY_DATA.tsv", "w", "utf-8")
 public_tweets = api.search("data science", count=10)
 
 for tweet in public_tweets:
-    print >>output_file, tweet.user.screen_name + "\t" + str(tweet.created_at) + "\t" + tweet.text
+    print(tweet.user.screen_name + "\t" + str(tweet.created_at) + "\t" + tweet.text, file=output_file)
 

@@ -8,10 +8,10 @@ api = tweepy.API(auth)
 
 user = api.get_user('makoshark')
 
-print user.screen_name + " has " + str(user.followers_count) + " followers."
+print(user.screen_name + " has " + str(user.followers_count) + " followers.")
 
-print "They include these 100 people:"
+print("They include these 100 people:")
 
 for friend in user.friends(count=100):
-   print friend.screen_name
+   print(friend.screen_name)
 
