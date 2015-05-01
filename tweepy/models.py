@@ -75,13 +75,6 @@ class Status(Model):
     @classmethod
     def parse(cls, api, json):
         status = cls(api)
-
-        # I'm not proud. Blame billg.
-        import sys
-        json['text'] = str(json['text'].encode(sys.stdout.encoding, 'replace'))[2:-1]
-        if 'user' in json:
-            json['user']['screen_name'] = str(json['user']['screen_name'].encode(sys.stdout.encoding, 'replace'))[2:-1]
-
         setattr(status, '_json', json)
         for k, v in json.items():
             if k == 'user':

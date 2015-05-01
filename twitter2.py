@@ -1,3 +1,4 @@
+import encoding_fix
 import tweepy
 from twitter_authentication import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
 
