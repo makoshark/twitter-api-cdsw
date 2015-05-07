@@ -13,6 +13,6 @@ print(user.screen_name + " has " + str(user.followers_count) + " followers.")
 
 print("They include these 100 people:")
 
-for friend in user.followers(count=100):
-   print(friend.screen_name)
+for follower in user.followers(count=100):
+   print(follower.screen_name)
 
