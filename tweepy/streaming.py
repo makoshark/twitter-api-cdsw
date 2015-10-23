@@ -150,7 +150,7 @@ class ReadBuffer(object):
 
     def __init__(self, stream, chunk_size):
         self._stream = stream
-        self._buffer = u""
+        self._buffer = ''
         self._chunk_size = chunk_size
 
     def read_len(self, length):
@@ -158,7 +158,7 @@ class ReadBuffer(object):
             if len(self._buffer) >= length:
                 return self._pop(length)
             read_len = max(self._chunk_size, length - len(self._buffer))
-            self._buffer += self._stream.read(read_len).decode("ascii")
+            self._buffer += self._stream.read(read_len)
 
     def read_line(self, sep='\n'):
         start = 0
@@ -168,7 +168,7 @@ class ReadBuffer(object):
                 return self._pop(loc + len(sep))
             else:
                 start = len(self._buffer)
-            self._buffer += self._stream.read(self._chunk_size).decode("ascii")
+            self._buffer += self._stream.read(self._chunk_size)
 
     def _pop(self, length):
         r = self._buffer[:length]
@@ -283,7 +283,7 @@ class Stream(object):
         if exception:
             # call a handler first so that the exception can be logged.
             self.listener.on_exception(exception)
-            raise
+            raise exception
 
     def _data(self, data):
         if self.listener.on_data(data) is False:
@@ -404,7 +404,7 @@ class Stream(object):
         self._start(async)
 
     def filter(self, follow=None, track=None, async=False, locations=None,
-               stall_warnings=False, languages=None, encoding='utf8'):
+               stall_warnings=False, languages=None, encoding='utf8', filter_level=None):
         self.body = {}
         self.session.headers['Content-type'] = "application/x-www-form-urlencoded"
         if self.running:
@@ -423,6 +423,8 @@ class Stream(object):
             self.body['stall_warnings'] = stall_warnings
         if languages:
             self.body['language'] = u','.join(map(str, languages))
+        if filter_level:
+            self.body['filter_level'] = unicode(filter_level, encoding)
         self.session.params = {'delimited': 'length'}
         self.host = 'stream.twitter.com'
         self._start(async)

@@ -182,7 +182,7 @@ class API(object):
         post_data = {}
         if media_ids is not None:
             post_data["media_ids"] = list_to_csv(media_ids)
-        
+
         return bind_api(
             api=self,
             path='/statuses/update.json',
@@ -528,13 +528,13 @@ class API(object):
     @property
     def friends(self):
         """ :reference: https://dev.twitter.com/rest/reference/get/friends/list
-            :allowed_param:'id', 'user_id', 'screen_name', 'cursor'
+            :allowed_param:'id', 'user_id', 'screen_name', 'cursor', 'skip_status', 'include_user_entities'
         """
         return bind_api(
             api=self,
             path='/friends/list.json',
             payload_type='user', payload_list=True,
-            allowed_param=['id', 'user_id', 'screen_name', 'cursor']
+            allowed_param=['id', 'user_id', 'screen_name', 'cursor', 'skip_status', 'include_user_entities']
         )
 
     @property
@@ -586,9 +586,39 @@ class API(object):
                            'skip_status', 'include_user_entities']
         )
 
+    @property
+    def get_settings(self):
+        """ :reference: https://dev.twitter.com/rest/reference/get/account/settings
+        """
+        return bind_api(
+            api=self,
+            path='/account/settings.json',
+            payload_type='json',
+            use_cache=False
+        )
+
+    @property
+    def set_settings(self):
+        """ :reference: https://dev.twitter.com/rest/reference/post/account/settings
+            :allowed_param:'sleep_time_enabled', 'start_sleep_time',
+            'end_sleep_time', 'time_zone', 'trend_location_woeid',
+            'allow_contributor_request', 'lang'
+        """
+        return bind_api(
+            api=self,
+            path='/account/settings.json',
+            method='POST',
+            payload_type='json',
+            allowed_param=['sleep_time_enabled', 'start_sleep_time',
+                           'end_sleep_time', 'time_zone',
+                           'trend_location_woeid', 'allow_contributor_request',
+                           'lang'],
+            use_cache=False
+        )
+
     def verify_credentials(self, **kargs):
         """ :reference: https://dev.twitter.com/rest/reference/get/account/verify_credentials
-            :allowed_param:'include_entities', 'skip_status'
+            :allowed_param:'include_entities', 'skip_status', 'include_email'
         """
         try:
             return bind_api(
@@ -596,7 +626,7 @@ class API(object):
                 path='/account/verify_credentials.json',
                 payload_type='user',
                 require_auth=True,
-                allowed_param=['include_entities', 'skip_status'],
+                allowed_param=['include_entities', 'skip_status', 'include_email'],
             )(**kargs)
         except TweepError as e:
             if e.response and e.response.status == 401:
@@ -1012,7 +1042,7 @@ class API(object):
     @property
     def _add_list_members(self):
         """ :reference: https://dev.twitter.com/docs/api/1.1/post/lists/members/create_all
-            :allowed_param:'screen_name', 'user_id', 'slug', 'lit_id',
+            :allowed_param:'screen_name', 'user_id', 'slug', 'list_id',
             'owner_id', 'owner_screen_name'
 
         """
@@ -1021,7 +1051,7 @@ class API(object):
             path='/lists/members/create_all.json',
             method='POST',
             payload_type='list',
-            allowed_param=['screen_name', 'user_id', 'slug', 'lit_id',
+            allowed_param=['screen_name', 'user_id', 'slug', 'list_id',
                            'owner_id', 'owner_screen_name'],
             require_auth=True
         )
@@ -1037,7 +1067,7 @@ class API(object):
     @property
     def _remove_list_members(self):
         """ :reference: https://dev.twitter.com/docs/api/1.1/post/lists/members/destroy_all
-            :allowed_param:'screen_name', 'user_id', 'slug', 'lit_id',
+            :allowed_param:'screen_name', 'user_id', 'slug', 'list_id',
             'owner_id', 'owner_screen_name'
 
         """
@@ -1046,7 +1076,7 @@ class API(object):
             path='/lists/members/destroy_all.json',
             method='POST',
             payload_type='list',
-            allowed_param=['screen_name', 'user_id', 'slug', 'lit_id',
+            allowed_param=['screen_name', 'user_id', 'slug', 'list_id',
                            'owner_id', 'owner_screen_name'],
             require_auth=True
         )
